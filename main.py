@@ -45,7 +45,6 @@ def main() -> None:
         fields = reader.fields
         data = reader.data[1:]
     for index, row in enumerate(data):
-        print(index, row, fields)
         context = dict(zip(fields, row))
         doc = DocxTemplate(template)
         doc.render(context)
