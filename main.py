@@ -35,6 +35,11 @@ class Reader(object):
     @property
     def fields(self):
         return self.data[0]
+
+def transform(doc, context, output, index):
+    ''' Renders and saves the document. '''
+    doc.render(context)
+    doc.save(f'{output}/{index}.docx')
         
 
 def main() -> None:
@@ -47,8 +52,7 @@ def main() -> None:
     for index, row in enumerate(data):
         context = dict(zip(fields, row))
         doc = DocxTemplate(template)
-        doc.render(context)
-        thread = threading.Thread(target=doc.save, args=(f'{output}/{index}.docx',))
+        thread = threading.Thread(target=transform, args=(doc, context, output, index))
         thread.start()
     
 
