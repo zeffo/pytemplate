@@ -9,6 +9,7 @@ py main.py (csv file path) (template document) (output folder)
 ```
 # Dependancies
 Python 3.8+
+
 docxtpl module
 
 
