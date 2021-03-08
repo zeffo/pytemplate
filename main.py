@@ -16,6 +16,8 @@ from docxtpl import DocxTemplate
 from sys import argv
 from time import perf_counter
 
+tasks = []
+
 class Reader(object):
     ''' Class to help parse the CSV data. '''
     def __init__(self, target):
@@ -52,12 +54,13 @@ async def main() -> None:
     for index, row in enumerate(data):
         context = dict(zip(fields, row))
         doc = DocxTemplate(template)
-        asyncio.create_task(transform(doc, context, output, index))
+        tasks.append(transform(doc, context, output, index))
+    await asyncio.gather(*tasks)
 
 
 if __name__ == '__main__':
     start = perf_counter()
-    asyncio.get_event_loop().run_until_complete(main())
+    loop = asyncio.get_event_loop().run_until_complete(main())
     end = perf_counter()
     print(f'Finished in {end-start}s')
 
