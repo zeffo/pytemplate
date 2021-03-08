@@ -10,11 +10,13 @@ To report bugs or give feedback, please write to le32@myshala.com
 All feedback is appreciated.
 
 """
-import asyncio
+
 import csv
 from docxtpl import DocxTemplate
 from sys import argv
+import threading
 from time import perf_counter
+
 
 class Reader(object):
     ''' Class to help parse the CSV data. '''
@@ -34,30 +36,29 @@ class Reader(object):
     def fields(self):
         return self.data[0]
 
-async def transform(doc, context, output, index):
+def transform(doc, context, output, index):
     ''' Renders and saves the document. '''
-    def _transform():
-        ''' Inner function that does all the blocking I/O '''
-        doc.render(context)
-        doc.save(f'{output}/{index}.docx')
-    asyncio.get_running_loop().run_in_executor(None, _transform)
+    doc.render(context)
+    doc.save(f'{output}/{index}.docx')
         
 
-async def main() -> None:
+def main() -> None:
     ''' Main function that handles and coordinated all other helper functions. '''
-    _data, template, output = argv[1:]  
+    _data, template, output = argv[1:]
+        
     with Reader(_data) as reader:
         fields = reader.fields
         data = reader.data[1:]
     for index, row in enumerate(data):
         context = dict(zip(fields, row))
         doc = DocxTemplate(template)
-        asyncio.create_task(transform(doc, context, output, index))
-
+        thread = threading.Thread(target=transform, args=(doc, context, output, index))
+        thread.start()
+    
 
 if __name__ == '__main__':
     start = perf_counter()
-    asyncio.get_event_loop().run_until_complete(main())
+    main()
     end = perf_counter()
     print(f'Finished in {end-start}s')
 
