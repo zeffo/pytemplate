@@ -13,7 +13,7 @@ Although I am not exactly sure why this performance difference exists, I believe
 # Usage:
 Command Line utility:
 ```
-py main.py (csv file path) (template document) (output folder)
+py main.py <csv file path> <template document> <output folder>
 ```
 # Dependancies
 Python 3.8+
