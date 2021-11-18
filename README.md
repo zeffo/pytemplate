@@ -8,7 +8,7 @@ With the same data and template, the `threaded_main.py` script managed to genera
 
 The main.py script uses asyncio and concurrent.Futures.ThreadPoolExecutor to render and save the documents concurrently. The threaded_main.py script uses threading.
 
-Although I am not exactly sure why this performance difference exists, I believe that it is because creating a Thread for every document in 1k documents is not a very good idea. For future renditions, I will be using a Queue. As for now, the async script provides over-average performance and exceeds my expectations, so I will not be changing it further.
+(The performance difference exists due to the GIL.)
 
 # Usage:
 Command Line utility:
