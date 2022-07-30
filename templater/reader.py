@@ -5,7 +5,7 @@ from io import TextIOWrapper
 
 
 class Reader:
-    '''My own implementation of a CSV Parser. The csv module included in the stdlib is not very flexible.'''
+    '''Parser for CSV files'''
 
     def __init__(self, file: TextIOWrapper, delimiter=','):
         self.delimiter = delimiter
