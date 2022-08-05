@@ -8,7 +8,6 @@ With the same data and template, the `threaded_main.py` script managed to genera
 
 The main.py script uses asyncio and concurrent.Futures.ThreadPoolExecutor to render and save the documents concurrently. The threaded_main.py script uses threading.
 
-(The performance difference exists due to the GIL.)
 
 # Usage:
 Command Line utility:
